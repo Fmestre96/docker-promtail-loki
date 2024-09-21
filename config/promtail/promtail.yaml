@@ -34,3 +34,12 @@ scrape_configs:
             #message: message
             level: level
             #output: 'message'
+
+  - job_name: nginx_logs
+    static_configs:
+    - targets:
+        - localhost
+      labels:
+        job: nginx_logs
+        env: production
+        __path__: /var/log/nginx/*.log 

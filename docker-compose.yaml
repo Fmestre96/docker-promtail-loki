@@ -9,18 +9,6 @@ x-logging:
     tag: "{{.Name}}"
 
 services:
-  nginx-app:
-    container_name: nginx-app
-    image: nginx
-    labels:
-      logging: "promtail"
-      logging_jobname: "containerlogs"
-    ports:
-      - 8080:80
-    networks:
-      - app
-    logging: *default-logging
-
   grafana:
     image: grafana/grafana:11.0.0
     container_name: grafana
@@ -55,6 +43,7 @@ services:
       - ./config/promtail/promtail.yaml:/etc/promtail/docker-config.yaml
       - /var/lib/docker/containers:/var/lib/docker/containers:ro
       - /var/run/docker.sock:/var/run/docker.sock
+      - /var/log/nginx:/var/log/nginx
     command: -config.file=/etc/promtail/docker-config.yaml
     depends_on:
       - loki
